@@ -39,38 +39,25 @@
         <h3>Loading...</h3>
       </div>
     </div>
-    <div class="container-filter">
-      <h1>Filtra per:</h1>
-      <div class="box">
-        <h5>Categoria:</h5>
-        <button class="btn-category">PHP</button>
-        <button class="btn-category">PHP</button>
-        <button class="btn-category">PHP</button>
-        <button class="btn-category">PHP</button>
-        <button class="btn-category">PHP</button>
-      </div>
 
-      <div class="box">
-        <h5>Tag:</h5>
-        <button class="btn-tag">Javascript</button>
-        <button class="btn-tag">Javascript</button>
-        <button class="btn-tag">Javascript</button>
-        <button class="btn-tag">Javascript</button>
-        <button class="btn-tag">Javascript</button>
-        <button class="btn-tag">Javascript</button>
-      </div>
-    </div>
-
+    <Sidebar
+      :categories="categories"
+      :tags="tags"
+     />
+    
   </main>
 </template>
 
 <script>
 import PostItem from '../partials/PostItem.vue';
+import Sidebar from '../partials/Sidebar.vue';
+
 export default {
   name: 'Posts',
   
   components: {
-    PostItem
+    PostItem,
+    Sidebar,
   },
 
   data(){
@@ -79,8 +66,11 @@ export default {
 
       // una volta effettuata la chiamata salvo tutti i miei dati in posts, di defaul è null ma una volta effettuata la chiamata si riempe
       posts: null,
+      pagination: {},
 
-      pagination: {}
+      // creo due array vuoti che si popolano alla chiamata getApi()
+      categories: [],
+      tags: [],
       
 
     }
@@ -100,8 +90,13 @@ export default {
       this.posts = null;
       axios.get(this.apiUrl + page)
       .then(result => {
-        this.posts = result.data.data
+        this.posts = result.data.posts.data
         //console.log('ARRAY--->', this.posts);
+
+        // salvo dentro un array le categorie e i tags
+        this.categories = result.data.categories;
+        this.tags = result.data.tags;
+        //console.log('tags----->', this.tags);
       
         this.pagination = {
           current : result.data.current_page,
@@ -138,35 +133,7 @@ main{
     padding-top: 150px;
   }
 
-  .container-filter{
-    margin-left: 20px;
-    .box{
-      padding: 10px;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    button{
-      border: none;
-      padding: 5px;
-      border-radius: 5px;
-      cursor: pointer;
-      color: white;
-      margin: 5px;
-    }
-      
-      .btn-category{
-        background-color:coral;
-        &:hover{
-          background-color:rgb(255, 215, 200);
-        }
-      }
-      .btn-tag{
-        background-color: lightgreen;
-        &:hover{
-          background-color:rgb(206, 241, 206);
-        }
-      }
-  }
+  
   
 }
 
