@@ -24,4 +24,8 @@ Route::namespace('Api')
   ->group(function(){
     Route::get('/', 'PostController@index');
     Route::get('{slug}', 'PostController@show');
+
+    // creo la rotta legata alla funzione getPostsByCategory() in cui gli passo come parametro lo slug
+    Route::get('postcategory/{slug}', 'PostController@getPostsByCategory');
+    Route::get('posttag/{slug}', 'PostController@getPostsByTag');
   });

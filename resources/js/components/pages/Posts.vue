@@ -39,11 +39,11 @@
         <h3>Loading...</h3>
       </div>
     </div>
-
     <Sidebar
       :categories="categories"
       :tags="tags"
      />
+
     
   </main>
 </template>

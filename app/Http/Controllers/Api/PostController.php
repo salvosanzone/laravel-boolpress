@@ -35,5 +35,21 @@ class PostController extends Controller
       return response()->json($post);
     }
 
+    // creo una funzione che mi restituisce un json con le categorie
+    public function getPostsByCategory($slug_category){
+
+
+      $category = Category::where('slug', $slug_category)->first();
+
+      return response()->json($category);
+    }
+
+    public function getPostsByTag($slug_tag){
+
+      // gli sto dicendo tramite eloquent di prendere lo slug che è uguale a quello che gli inserirò io come parametro (select slug from Tag where slug = 'quello che inserisco io')
+      $tag = Tag::where('slug', $slug_tag)->first();
+
+      return response()->json($tag);
+    }
 
 }

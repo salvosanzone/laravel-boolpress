@@ -2343,6 +2343,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Sidebar',
   props: {
@@ -2479,7 +2481,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".container-filter[data-v-438bbc0a] {\n  margin-left: 20px;\n}\n.container-filter .box[data-v-438bbc0a] {\n  padding: 10px;\n  text-align: center;\n  margin-bottom: 20px;\n}\n.container-filter button[data-v-438bbc0a] {\n  border: none;\n  padding: 5px;\n  border-radius: 5px;\n  cursor: pointer;\n  color: white;\n  margin: 5px;\n}\n.container-filter .btn-category[data-v-438bbc0a] {\n  background-color: coral;\n}\n.container-filter .btn-category[data-v-438bbc0a]:hover {\n  background-color: #ffd7c8;\n}\n.container-filter .btn-tag[data-v-438bbc0a] {\n  background-color: lightgreen;\n}\n.container-filter .btn-tag[data-v-438bbc0a]:hover {\n  background-color: #cef1ce;\n}", ""]);
+exports.push([module.i, ".container-filter[data-v-438bbc0a] {\n  margin-left: 20px;\n}\n.container-filter .title-text[data-v-438bbc0a] {\n  text-align: center;\n}\n.container-filter .box[data-v-438bbc0a] {\n  padding: 10px;\n  text-align: center;\n  margin-bottom: 20px;\n}\n.container-filter button[data-v-438bbc0a] {\n  border: none;\n  padding: 5px;\n  border-radius: 5px;\n  cursor: pointer;\n  color: white;\n  margin: 5px;\n}\n.container-filter .btn-category[data-v-438bbc0a] {\n  background-color: coral;\n}\n.container-filter .btn-category[data-v-438bbc0a]:hover {\n  background-color: #ffd7c8;\n}\n.container-filter .btn-tag[data-v-438bbc0a] {\n  background-color: lightgreen;\n}\n.container-filter .btn-tag[data-v-438bbc0a]:hover {\n  background-color: #cef1ce;\n}", ""]);
 
 // exports
 
@@ -4244,7 +4246,7 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container-filter" }, [
-    _c("h1", [_vm._v("Filtra per")]),
+    _vm._m(0),
     _vm._v(" "),
     _c(
       "div",
@@ -4279,7 +4281,16 @@ var render = function () {
     ),
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "title-text" }, [
+      _c("h1", [_vm._v("Filtra per")]),
+    ])
+  },
+]
 render._withStripped = true
 
 

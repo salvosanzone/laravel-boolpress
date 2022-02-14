@@ -1,6 +1,8 @@
 <template>
   <div class="container-filter">
-    <h1>Filtra per</h1>
+    <div class="title-text">
+      <h1>Filtra per</h1>
+    </div>
       <div class="box">
         <h5>Categoria</h5>
         <button 
@@ -41,6 +43,9 @@ export default {
 
 <style lang="scss" scoped>
 .container-filter{
+  .title-text{
+    text-align: center;
+  }
     margin-left: 20px;
     .box{
       padding: 10px;
