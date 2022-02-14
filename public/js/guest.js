@@ -2133,6 +2133,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Posts',
@@ -2343,7 +2363,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "main[data-v-9212e6a6] {\n  padding: 50px;\n}\nmain h1[data-v-9212e6a6] {\n  margin-bottom: 10px;\n}\nmain .navigation[data-v-9212e6a6] {\n  margin-bottom: 100px;\n}\nmain .navigation button[data-v-9212e6a6] {\n  padding: 5px;\n  cursor: pointer;\n}\nmain .loader[data-v-9212e6a6] {\n  text-align: center;\n  padding-top: 150px;\n}", ""]);
+exports.push([module.i, "main[data-v-9212e6a6] {\n  display: flex;\n  padding: 50px;\n}\nmain h1[data-v-9212e6a6] {\n  margin-bottom: 10px;\n}\nmain .navigation[data-v-9212e6a6] {\n  margin-bottom: 100px;\n}\nmain .navigation button[data-v-9212e6a6] {\n  padding: 5px;\n  cursor: pointer;\n}\nmain .loader[data-v-9212e6a6] {\n  text-align: center;\n  padding-top: 150px;\n}\nmain .container-filter[data-v-9212e6a6] {\n  margin-left: 20px;\n}\nmain .container-filter .box[data-v-9212e6a6] {\n  padding: 10px;\n  text-align: center;\n  margin-bottom: 20px;\n}\nmain .container-filter button[data-v-9212e6a6] {\n  border: none;\n  padding: 5px;\n  border-radius: 5px;\n  cursor: pointer;\n  color: white;\n  margin: 5px;\n}\nmain .container-filter .btn-category[data-v-9212e6a6] {\n  background-color: coral;\n}\nmain .container-filter .btn-category[data-v-9212e6a6]:hover {\n  background-color: #ffd7c8;\n}\nmain .container-filter .btn-tag[data-v-9212e6a6] {\n  background-color: lightgreen;\n}\nmain .container-filter .btn-tag[data-v-9212e6a6]:hover {\n  background-color: #cef1ce;\n}", ""]);
 
 // exports
 
@@ -3868,75 +3888,119 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("main", { staticClass: "container" }, [
-    _c("h1", [_vm._v("I miei Post")]),
-    _vm._v(" "),
-    _vm.posts
-      ? _c(
-          "div",
-          [
-            _vm._l(_vm.posts, function (post) {
-              return _c("PostItem", { key: post.id, attrs: { post: post } })
-            }),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "navigation" },
-              [
-                _c(
-                  "button",
-                  {
-                    attrs: { disabled: _vm.pagination.current === 1 },
-                    on: {
-                      click: function ($event) {
-                        return _vm.getPosts(_vm.pagination.current - 1)
-                      },
-                    },
-                  },
-                  [_vm._v(" \n        << prev\n        ")]
-                ),
-                _vm._v(" "),
-                _vm._l(_vm.pagination.last, function (i) {
-                  return _c(
+    _c("div", { staticClass: "container-posts" }, [
+      _c("h1", [_vm._v("I miei Post")]),
+      _vm._v(" "),
+      _vm.posts
+        ? _c(
+            "div",
+            [
+              _vm._l(_vm.posts, function (post) {
+                return _c("PostItem", { key: post.id, attrs: { post: post } })
+              }),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "navigation" },
+                [
+                  _c(
                     "button",
                     {
-                      key: i,
-                      attrs: { disabled: _vm.pagination.current === i },
+                      attrs: { disabled: _vm.pagination.current === 1 },
                       on: {
                         click: function ($event) {
-                          return _vm.getPosts(i)
+                          return _vm.getPosts(_vm.pagination.current - 1)
                         },
                       },
                     },
-                    [_vm._v("\n          " + _vm._s(i) + "\n        ")]
-                  )
-                }),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    attrs: {
-                      disabled: _vm.pagination.current === _vm.pagination.last,
-                    },
-                    on: {
-                      click: function ($event) {
-                        return _vm.getPosts(_vm.pagination.current + 1)
+                    [_vm._v(" \n          << prev\n          ")]
+                  ),
+                  _vm._v(" "),
+                  _vm._l(_vm.pagination.last, function (i) {
+                    return _c(
+                      "button",
+                      {
+                        key: i,
+                        attrs: { disabled: _vm.pagination.current === i },
+                        on: {
+                          click: function ($event) {
+                            return _vm.getPosts(i)
+                          },
+                        },
+                      },
+                      [_vm._v("\n            " + _vm._s(i) + "\n          ")]
+                    )
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      attrs: {
+                        disabled:
+                          _vm.pagination.current === _vm.pagination.last,
+                      },
+                      on: {
+                        click: function ($event) {
+                          return _vm.getPosts(_vm.pagination.current + 1)
+                        },
                       },
                     },
-                  },
-                  [_vm._v(" \n        >> next\n      ")]
-                ),
-              ],
-              2
-            ),
-          ],
-          2
-        )
-      : _c("div", { staticClass: "loader" }, [
-          _c("h3", [_vm._v("Loading...")]),
-        ]),
+                    [_vm._v(" \n          >> next\n        ")]
+                  ),
+                ],
+                2
+              ),
+            ],
+            2
+          )
+        : _c("div", { staticClass: "loader" }, [
+            _c("h3", [_vm._v("Loading...")]),
+          ]),
+    ]),
+    _vm._v(" "),
+    _vm._m(0),
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "container-filter" }, [
+      _c("h1", [_vm._v("Filtra per:")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "box" }, [
+        _c("h5", [_vm._v("Categoria:")]),
+        _vm._v(" "),
+        _c("button", { staticClass: "btn-category" }, [_vm._v("PHP")]),
+        _vm._v(" "),
+        _c("button", { staticClass: "btn-category" }, [_vm._v("PHP")]),
+        _vm._v(" "),
+        _c("button", { staticClass: "btn-category" }, [_vm._v("PHP")]),
+        _vm._v(" "),
+        _c("button", { staticClass: "btn-category" }, [_vm._v("PHP")]),
+        _vm._v(" "),
+        _c("button", { staticClass: "btn-category" }, [_vm._v("PHP")]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "box" }, [
+        _c("h5", [_vm._v("Tag:")]),
+        _vm._v(" "),
+        _c("button", { staticClass: "btn-tag" }, [_vm._v("Javascript")]),
+        _vm._v(" "),
+        _c("button", { staticClass: "btn-tag" }, [_vm._v("Javascript")]),
+        _vm._v(" "),
+        _c("button", { staticClass: "btn-tag" }, [_vm._v("Javascript")]),
+        _vm._v(" "),
+        _c("button", { staticClass: "btn-tag" }, [_vm._v("Javascript")]),
+        _vm._v(" "),
+        _c("button", { staticClass: "btn-tag" }, [_vm._v("Javascript")]),
+        _vm._v(" "),
+        _c("button", { staticClass: "btn-tag" }, [_vm._v("Javascript")]),
+      ]),
+    ])
+  },
+]
 render._withStripped = true
 
 
@@ -19822,7 +19886,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\Utente\Documents\boolean\laravel\laravel-api\resources\js\guest.js */"./resources/js/guest.js");
+module.exports = __webpack_require__(/*! C:\Users\Utente\Documents\boolean\laravel\laravel-boolpress\resources\js\guest.js */"./resources/js/guest.js");
 
 
 /***/ })

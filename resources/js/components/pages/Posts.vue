@@ -1,44 +1,64 @@
 <template>
   <main class="container">
-    <h1>I miei Post</h1>
 
-    
-    
-    <div v-if="posts">
-      <PostItem 
-        v-for="post in posts"
-        :key="post.id"
-        :post="post"
-      />
+    <div class="container-posts">
+      <h1>I miei Post</h1>
+      <div v-if="posts">
+        <PostItem 
+          v-for="post in posts"
+          :key="post.id"
+          :post="post"
+        />
 
-      <div class="navigation">
-        <button
-          @click="getPosts(pagination.current - 1)"
-          :disabled="pagination.current === 1"
-          > 
-          << prev
-          </button>
+        <div class="navigation">
+          <button
+            @click="getPosts(pagination.current - 1)"
+            :disabled="pagination.current === 1"
+            > 
+            << prev
+            </button>
+
+            <button
+              v-for="i in pagination.last"
+              :key="i"
+              @click="getPosts(i)"
+              :disabled="pagination.current === i"
+            >
+              {{ i }}
+            </button>
 
           <button
-            v-for="i in pagination.last"
-            :key="i"
-            @click="getPosts(i)"
-            :disabled="pagination.current === i"
-          >
-            {{ i }}
+            @click="getPosts(pagination.current + 1)"
+            :disabled="pagination.current === pagination.last"
+          > 
+            >> next
           </button>
-
-        <button
-          @click="getPosts(pagination.current + 1)"
-          :disabled="pagination.current === pagination.last"
-        > 
-          >> next
-        </button>
+        </div>
+      </div>
+      <div v-else class="loader">
+        <h3>Loading...</h3>
       </div>
     </div>
-    
-    <div v-else class="loader">
-      <h3>Loading...</h3>
+    <div class="container-filter">
+      <h1>Filtra per:</h1>
+      <div class="box">
+        <h5>Categoria:</h5>
+        <button class="btn-category">PHP</button>
+        <button class="btn-category">PHP</button>
+        <button class="btn-category">PHP</button>
+        <button class="btn-category">PHP</button>
+        <button class="btn-category">PHP</button>
+      </div>
+
+      <div class="box">
+        <h5>Tag:</h5>
+        <button class="btn-tag">Javascript</button>
+        <button class="btn-tag">Javascript</button>
+        <button class="btn-tag">Javascript</button>
+        <button class="btn-tag">Javascript</button>
+        <button class="btn-tag">Javascript</button>
+        <button class="btn-tag">Javascript</button>
+      </div>
     </div>
 
   </main>
@@ -99,7 +119,9 @@ export default {
 
 <style lang="scss" scoped>
 main{
+  display: flex;
   padding: 50px;
+  
   h1{
     margin-bottom: 10px;
   }
@@ -115,6 +137,37 @@ main{
     text-align: center;
     padding-top: 150px;
   }
+
+  .container-filter{
+    margin-left: 20px;
+    .box{
+      padding: 10px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    button{
+      border: none;
+      padding: 5px;
+      border-radius: 5px;
+      cursor: pointer;
+      color: white;
+      margin: 5px;
+    }
+      
+      .btn-category{
+        background-color:coral;
+        &:hover{
+          background-color:rgb(255, 215, 200);
+        }
+      }
+      .btn-tag{
+        background-color: lightgreen;
+        &:hover{
+          background-color:rgb(206, 241, 206);
+        }
+      }
+  }
+  
 }
 
 </style>
