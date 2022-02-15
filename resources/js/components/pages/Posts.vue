@@ -1,54 +1,56 @@
 <template>
   <main class="container">
-
+    <div v-if="success">
       <div v-if="posts" class="wrapper">
-        <div>
-          <h1>I miei post</h1>
-          <PostItem 
-          v-for="post in posts"
-          :key="post.id"
-          :post="post"
-          />
+      <h1>I miei post</h1>
+      <PostItem 
+      v-for="post in posts"
+      :key="post.id"
+      :post="post"
+      />
 
-          <div class="navigation">
-            <button
-              @click="getPosts(pagination.current - 1)"
-              :disabled="pagination.current === 1"
-              > 
-              << prev
-            </button>
+      <div class="navigation">
+        <button
+          @click="getPosts(pagination.current - 1)"
+          :disabled="pagination.current === 1"
+          > 
+          << prev
+        </button>
 
-            <button
-              v-for="i in pagination.last"
-              :key="i"
-              @click="getPosts(i)"
-              :disabled="pagination.current === i"
-            >
-              {{ i }}
-            </button>
+        <button
+          v-for="i in pagination.last"
+          :key="i"
+          @click="getPosts(i)"
+          :disabled="pagination.current === i"
+        >
+          {{ i }}
+        </button>
 
-            <button
-              @click="getPosts(pagination.current + 1)"
-              :disabled="pagination.current === pagination.last"
-            > 
-              >> next
-            </button>
-          </div>
-        </div>
-        
-        <div>
-          <Sidebar
-          :categories="categories"
-          :tags="tags"
-          />
-        </div>
-        
+        <button
+          @click="getPosts(pagination.current + 1)"
+          :disabled="pagination.current === pagination.last"
+        > 
+          >> next
+        </button>
       </div>
-      <div v-else class="loader">
-        <h3>Loading...</h3>
-      </div>
+    </div>
 
+    <div v-else class="loader">
+      <h3>Loading...</h3>
+    </div>
+    </div>
     
+    <div v-else>
+      <h2>{{ error_msg }}</h2>
+    </div>
+    
+    <Sidebar
+    :categories="categories"
+    :tags="tags"
+    @getPostCategory="getPostCategory"
+    @getPostTag="getPostTag"
+    />
+
   </main>
 </template>
 
@@ -66,7 +68,7 @@ export default {
 
   data(){
     return{
-      apiUrl: 'http://127.0.0.1:8000/api/posts?page=',
+      apiUrl: 'http://127.0.0.1:8000/api/posts',
 
       // una volta effettuata la chiamata salvo tutti i miei dati in posts, di defaul è null ma una volta effettuata la chiamata si riempe
       posts: null,
@@ -75,6 +77,11 @@ export default {
       // creo due array vuoti che si popolano alla chiamata getApi()
       categories: [],
       tags: [],
+
+      success: true,
+      error_msg: ''
+
+
       
 
     }
@@ -88,11 +95,36 @@ export default {
 
   
   methods: {
+    getPostCategory(slug_category){
+      //console.log(slug_category);
+      // l'argomento che mi viene giu(la categoria) lo devo andare a concatenare nell url nel momento in cui faccio una chiamata
+      axios.get(this.apiUrl + '/postcategory/' + slug_category)
+        .then(result => {
+          this.posts = result.data.category.posts
+          if(!result.data.success){
+            this.error_msg = result.data.error;
+            this.success = false;
+          } 
+          //console.log('al click ====>', this.posts);
+        })
+    },
+    getPostTag(slug_tag){
+      //console.log('click tag ====>', slug_tag);
+      axios.get(this.apiUrl + '/posttag/' + slug_tag)
+        .then(result => {
+          this.posts = result.data.tag.posts
+          if(!result.data.success){
+            this.error_msg = result.data.error;
+            this.success = false;
+          } 
+          console.log('result ====>', this.posts);
+        })
+    },
     // creo una funzione che fa la chiamata axios
     getPosts(page = 1){
       // creo il loader anche quando cambio pagina
       this.posts = null;
-      axios.get(this.apiUrl + page)
+      axios.get(this.apiUrl +'?page=' + page)
       .then(result => {
         this.posts = result.data.posts.data
         //console.log('ARRAY--->', this.posts);
@@ -103,11 +135,11 @@ export default {
         //console.log('tags----->', this.tags);
       
         this.pagination = {
-          current : result.data.current_page,
-          last : result.data.last_page
+          current : result.data.posts.current_page,
+          last : result.data.posts.last_page
 
         }
-          console.log('ARRAY CON PAGINATE--->', this.pagination);
+          //console.log('ARRAY CON PAGINATE--->', this.pagination);
       })
 
     }
@@ -120,8 +152,7 @@ export default {
 main{
   padding: 50px;
   .wrapper{
-    display: flex;
-    justify-content: center;
+    
   }
   
   h1{

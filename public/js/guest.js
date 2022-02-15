@@ -2142,6 +2142,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2152,13 +2154,15 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      apiUrl: 'http://127.0.0.1:8000/api/posts?page=',
+      apiUrl: 'http://127.0.0.1:8000/api/posts',
       // una volta effettuata la chiamata salvo tutti i miei dati in posts, di defaul è null ma una volta effettuata la chiamata si riempe
       posts: null,
       pagination: {},
       // creo due array vuoti che si popolano alla chiamata getApi()
       categories: [],
-      tags: []
+      tags: [],
+      success: true,
+      error_msg: ''
     };
   },
   // creo una funzione mounted che si attiva ogni volta che carico la pagina
@@ -2167,25 +2171,54 @@ __webpack_require__.r(__webpack_exports__);
     this.getPosts();
   },
   methods: {
+    getPostCategory: function getPostCategory(slug_category) {
+      var _this = this;
+
+      //console.log(slug_category);
+      // l'argomento che mi viene giu(la categoria) lo devo andare a concatenare nell url nel momento in cui faccio una chiamata
+      axios.get(this.apiUrl + '/postcategory/' + slug_category).then(function (result) {
+        _this.posts = result.data.category.posts;
+
+        if (!result.data.success) {
+          _this.error_msg = result.data.error;
+          _this.success = false;
+        } //console.log('al click ====>', this.posts);
+
+      });
+    },
+    getPostTag: function getPostTag(slug_tag) {
+      var _this2 = this;
+
+      //console.log('click tag ====>', slug_tag);
+      axios.get(this.apiUrl + '/posttag/' + slug_tag).then(function (result) {
+        _this2.posts = result.data.tag.posts;
+
+        if (!result.data.success) {
+          _this2.error_msg = result.data.error;
+          _this2.success = false;
+        }
+
+        console.log('result ====>', _this2.posts);
+      });
+    },
     // creo una funzione che fa la chiamata axios
     getPosts: function getPosts() {
-      var _this = this;
+      var _this3 = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       // creo il loader anche quando cambio pagina
       this.posts = null;
-      axios.get(this.apiUrl + page).then(function (result) {
-        _this.posts = result.data.posts.data; //console.log('ARRAY--->', this.posts);
+      axios.get(this.apiUrl + '?page=' + page).then(function (result) {
+        _this3.posts = result.data.posts.data; //console.log('ARRAY--->', this.posts);
         // salvo dentro un array le categorie e i tags
 
-        _this.categories = result.data.categories;
-        _this.tags = result.data.tags; //console.log('tags----->', this.tags);
+        _this3.categories = result.data.categories;
+        _this3.tags = result.data.tags; //console.log('tags----->', this.tags);
 
-        _this.pagination = {
-          current: result.data.current_page,
-          last: result.data.last_page
-        };
-        console.log('ARRAY CON PAGINATE--->', _this.pagination);
+        _this3.pagination = {
+          current: result.data.posts.current_page,
+          last: result.data.posts.last_page
+        }; //console.log('ARRAY CON PAGINATE--->', this.pagination);
       });
     }
   }
@@ -2349,6 +2382,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Sidebar',
   props: {
@@ -2409,7 +2443,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "main[data-v-9212e6a6] {\n  padding: 50px;\n}\nmain .wrapper[data-v-9212e6a6] {\n  display: flex;\n  justify-content: center;\n}\nmain h1[data-v-9212e6a6] {\n  margin-bottom: 10px;\n}\nmain .navigation[data-v-9212e6a6] {\n  margin-bottom: 100px;\n}\nmain .navigation button[data-v-9212e6a6] {\n  padding: 5px;\n  cursor: pointer;\n}\nmain .loader[data-v-9212e6a6] {\n  text-align: center;\n  padding-top: 150px;\n}", ""]);
+exports.push([module.i, "main[data-v-9212e6a6] {\n  padding: 50px;\n}\nmain h1[data-v-9212e6a6] {\n  margin-bottom: 10px;\n}\nmain .navigation[data-v-9212e6a6] {\n  margin-bottom: 100px;\n}\nmain .navigation button[data-v-9212e6a6] {\n  padding: 5px;\n  cursor: pointer;\n}\nmain .loader[data-v-9212e6a6] {\n  text-align: center;\n  padding-top: 150px;\n}", ""]);
 
 // exports
 
@@ -3982,87 +4016,96 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("main", { staticClass: "container" }, [
-    _vm.posts
-      ? _c("div", { staticClass: "wrapper" }, [
-          _c(
-            "div",
-            [
-              _c("h1", [_vm._v("I miei post")]),
-              _vm._v(" "),
-              _vm._l(_vm.posts, function (post) {
-                return _c("PostItem", { key: post.id, attrs: { post: post } })
-              }),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "navigation" },
-                [
-                  _c(
-                    "button",
-                    {
-                      attrs: { disabled: _vm.pagination.current === 1 },
-                      on: {
-                        click: function ($event) {
-                          return _vm.getPosts(_vm.pagination.current - 1)
-                        },
-                      },
-                    },
-                    [_vm._v(" \n            << prev\n          ")]
-                  ),
-                  _vm._v(" "),
-                  _vm._l(_vm.pagination.last, function (i) {
-                    return _c(
-                      "button",
-                      {
-                        key: i,
-                        attrs: { disabled: _vm.pagination.current === i },
-                        on: {
-                          click: function ($event) {
-                            return _vm.getPosts(i)
+  return _c(
+    "main",
+    { staticClass: "container" },
+    [
+      _vm.success
+        ? _c("div", [
+            _vm.posts
+              ? _c(
+                  "div",
+                  { staticClass: "wrapper" },
+                  [
+                    _c("h1", [_vm._v("I miei post")]),
+                    _vm._v(" "),
+                    _vm._l(_vm.posts, function (post) {
+                      return _c("PostItem", {
+                        key: post.id,
+                        attrs: { post: post },
+                      })
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "navigation" },
+                      [
+                        _c(
+                          "button",
+                          {
+                            attrs: { disabled: _vm.pagination.current === 1 },
+                            on: {
+                              click: function ($event) {
+                                return _vm.getPosts(_vm.pagination.current - 1)
+                              },
+                            },
                           },
-                        },
-                      },
-                      [_vm._v("\n            " + _vm._s(i) + "\n          ")]
-                    )
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      attrs: {
-                        disabled:
-                          _vm.pagination.current === _vm.pagination.last,
-                      },
-                      on: {
-                        click: function ($event) {
-                          return _vm.getPosts(_vm.pagination.current + 1)
-                        },
-                      },
-                    },
-                    [_vm._v(" \n            >> next\n          ")]
-                  ),
-                ],
-                2
-              ),
-            ],
-            2
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            [
-              _c("Sidebar", {
-                attrs: { categories: _vm.categories, tags: _vm.tags },
-              }),
-            ],
-            1
-          ),
-        ])
-      : _c("div", { staticClass: "loader" }, [
-          _c("h3", [_vm._v("Loading...")]),
-        ]),
-  ])
+                          [_vm._v(" \n        << prev\n      ")]
+                        ),
+                        _vm._v(" "),
+                        _vm._l(_vm.pagination.last, function (i) {
+                          return _c(
+                            "button",
+                            {
+                              key: i,
+                              attrs: { disabled: _vm.pagination.current === i },
+                              on: {
+                                click: function ($event) {
+                                  return _vm.getPosts(i)
+                                },
+                              },
+                            },
+                            [_vm._v("\n        " + _vm._s(i) + "\n      ")]
+                          )
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            attrs: {
+                              disabled:
+                                _vm.pagination.current === _vm.pagination.last,
+                            },
+                            on: {
+                              click: function ($event) {
+                                return _vm.getPosts(_vm.pagination.current + 1)
+                              },
+                            },
+                          },
+                          [_vm._v(" \n        >> next\n      ")]
+                        ),
+                      ],
+                      2
+                    ),
+                  ],
+                  2
+                )
+              : _c("div", { staticClass: "loader" }, [
+                  _c("h3", [_vm._v("Loading...")]),
+                ]),
+          ])
+        : _c("div", [_c("h2", [_vm._v(_vm._s(_vm.error_msg))])]),
+      _vm._v(" "),
+      _c("Sidebar", {
+        attrs: { categories: _vm.categories, tags: _vm.tags },
+        on: {
+          getPostCategory: _vm.getPostCategory,
+          getPostTag: _vm.getPostTag,
+        },
+      }),
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -4264,8 +4307,16 @@ var render = function () {
         _vm._l(_vm.categories, function (category) {
           return _c(
             "button",
-            { key: "cat" + category.id, staticClass: "btn-category" },
-            [_vm._v("\n        " + _vm._s(category.name) + "\n\n      ")]
+            {
+              key: "cat" + category.id,
+              staticClass: "btn-category",
+              on: {
+                click: function ($event) {
+                  return _vm.$emit("getPostCategory", category.slug)
+                },
+              },
+            },
+            [_vm._v("\n        " + _vm._s(category.name) + "\n      ")]
           )
         }),
       ],
@@ -4279,9 +4330,19 @@ var render = function () {
         _c("h5", [_vm._v("Tag")]),
         _vm._v(" "),
         _vm._l(_vm.tags, function (tag) {
-          return _c("button", { key: "tag" + tag.id, staticClass: "btn-tag" }, [
-            _vm._v("\n        " + _vm._s(tag.name) + "\n      "),
-          ])
+          return _c(
+            "button",
+            {
+              key: "tag" + tag.id,
+              staticClass: "btn-tag",
+              on: {
+                click: function ($event) {
+                  return _vm.$emit("getPostTag", tag.slug)
+                },
+              },
+            },
+            [_vm._v("\n        " + _vm._s(tag.name) + "\n      ")]
+          )
         }),
       ],
       2

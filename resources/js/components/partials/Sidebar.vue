@@ -8,9 +8,9 @@
         <button 
           v-for="category in categories"
           :key="`cat${category.id}`"
-          class="btn-category">
+          class="btn-category"
+          @click="$emit('getPostCategory', category.slug);">
           {{ category.name }}
-
         </button>
       </div>
 
@@ -19,7 +19,8 @@
         <button 
           v-for="tag in tags"
           :key="`tag${tag.id}`"
-          class="btn-tag">
+          class="btn-tag"
+          @click="$emit('getPostTag', tag.slug)">
           {{ tag.name }}
         </button>
       </div>
