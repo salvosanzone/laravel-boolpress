@@ -26,7 +26,7 @@ class PostController extends Controller
         // il return adesso non mi restituirà piu una view(blade) ma un json
         // posso passsare la variabile posts con il compact
         return response()->json(compact('posts', 'categories', 'tags'));
-
+        
     }
 
     // generazione json del singolo post in dettaglio usando lo slug
@@ -38,18 +38,45 @@ class PostController extends Controller
     // creo una funzione che mi restituisce un json con le categorie
     public function getPostsByCategory($slug_category){
 
+      // inserendo ->with('posts') mi stampa tutti i post che hanno lo slung che ho inserito nell url
+      $category = Category::where('slug', $slug_category)->with('posts.tags')->first();
 
-      $category = Category::where('slug', $slug_category)->first();
+      $success = true;
+      $error = '';
 
-      return response()->json($category);
+
+      
+      if(!$category){
+        $success = false;
+        $error = 'La categoria non esiste';
+      }elseif($category && count($category['posts']) === 0){
+        $success = false;
+        $error = 'Non esistono post per questa categoria';
+
+      }
+
+      return response()->json(compact('success', 'error', 'category'));
+
+      //dd(empty($category['posts']));
     }
 
     public function getPostsByTag($slug_tag){
 
       // gli sto dicendo tramite eloquent di prendere lo slug che è uguale a quello che gli inserirò io come parametro (select slug from Tag where slug = 'quello che inserisco io')
-      $tag = Tag::where('slug', $slug_tag)->first();
+      $tag = Tag::where('slug', $slug_tag)->with('posts')->first();
 
-      return response()->json($tag);
+      $success = true;
+      $error = '';
+
+      if (!$tag) {
+        $success = false;
+        $error = 'Il tag non esiste';
+      }elseif($tag && count($tag['posts']) === 0){
+        $success = false;
+        $error = 'Non esistono post per questo tag';
+      }
+
+      return response()->json(compact('tag', 'error', 'success'));
     }
 
 }

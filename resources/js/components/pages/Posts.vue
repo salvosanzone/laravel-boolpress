@@ -1,21 +1,21 @@
 <template>
   <main class="container">
 
-    <div class="container-posts">
-      <h1>I miei Post</h1>
-      <div v-if="posts">
-        <PostItem 
+      <div v-if="posts" class="wrapper">
+        <div>
+          <h1>I miei post</h1>
+          <PostItem 
           v-for="post in posts"
           :key="post.id"
           :post="post"
-        />
+          />
 
-        <div class="navigation">
-          <button
-            @click="getPosts(pagination.current - 1)"
-            :disabled="pagination.current === 1"
-            > 
-            << prev
+          <div class="navigation">
+            <button
+              @click="getPosts(pagination.current - 1)"
+              :disabled="pagination.current === 1"
+              > 
+              << prev
             </button>
 
             <button
@@ -27,22 +27,26 @@
               {{ i }}
             </button>
 
-          <button
-            @click="getPosts(pagination.current + 1)"
-            :disabled="pagination.current === pagination.last"
-          > 
-            >> next
-          </button>
+            <button
+              @click="getPosts(pagination.current + 1)"
+              :disabled="pagination.current === pagination.last"
+            > 
+              >> next
+            </button>
+          </div>
         </div>
+        
+        <div>
+          <Sidebar
+          :categories="categories"
+          :tags="tags"
+          />
+        </div>
+        
       </div>
       <div v-else class="loader">
         <h3>Loading...</h3>
       </div>
-    </div>
-    <Sidebar
-      :categories="categories"
-      :tags="tags"
-     />
 
     
   </main>
@@ -114,8 +118,11 @@ export default {
 
 <style lang="scss" scoped>
 main{
-  display: flex;
   padding: 50px;
+  .wrapper{
+    display: flex;
+    justify-content: center;
+  }
   
   h1{
     margin-bottom: 10px;

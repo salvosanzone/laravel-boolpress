@@ -2138,6 +2138,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2405,7 +2409,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "main[data-v-9212e6a6] {\n  display: flex;\n  padding: 50px;\n}\nmain h1[data-v-9212e6a6] {\n  margin-bottom: 10px;\n}\nmain .navigation[data-v-9212e6a6] {\n  margin-bottom: 100px;\n}\nmain .navigation button[data-v-9212e6a6] {\n  padding: 5px;\n  cursor: pointer;\n}\nmain .loader[data-v-9212e6a6] {\n  text-align: center;\n  padding-top: 150px;\n}", ""]);
+exports.push([module.i, "main[data-v-9212e6a6] {\n  padding: 50px;\n}\nmain .wrapper[data-v-9212e6a6] {\n  display: flex;\n  justify-content: center;\n}\nmain h1[data-v-9212e6a6] {\n  margin-bottom: 10px;\n}\nmain .navigation[data-v-9212e6a6] {\n  margin-bottom: 100px;\n}\nmain .navigation button[data-v-9212e6a6] {\n  padding: 5px;\n  cursor: pointer;\n}\nmain .loader[data-v-9212e6a6] {\n  text-align: center;\n  padding-top: 150px;\n}", ""]);
 
 // exports
 
@@ -3978,84 +3982,87 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "main",
-    { staticClass: "container" },
-    [
-      _c("div", { staticClass: "container-posts" }, [
-        _c("h1", [_vm._v("I miei Post")]),
-        _vm._v(" "),
-        _vm.posts
-          ? _c(
-              "div",
-              [
-                _vm._l(_vm.posts, function (post) {
-                  return _c("PostItem", { key: post.id, attrs: { post: post } })
-                }),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "navigation" },
-                  [
-                    _c(
+  return _c("main", { staticClass: "container" }, [
+    _vm.posts
+      ? _c("div", { staticClass: "wrapper" }, [
+          _c(
+            "div",
+            [
+              _c("h1", [_vm._v("I miei post")]),
+              _vm._v(" "),
+              _vm._l(_vm.posts, function (post) {
+                return _c("PostItem", { key: post.id, attrs: { post: post } })
+              }),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "navigation" },
+                [
+                  _c(
+                    "button",
+                    {
+                      attrs: { disabled: _vm.pagination.current === 1 },
+                      on: {
+                        click: function ($event) {
+                          return _vm.getPosts(_vm.pagination.current - 1)
+                        },
+                      },
+                    },
+                    [_vm._v(" \n            << prev\n          ")]
+                  ),
+                  _vm._v(" "),
+                  _vm._l(_vm.pagination.last, function (i) {
+                    return _c(
                       "button",
                       {
-                        attrs: { disabled: _vm.pagination.current === 1 },
+                        key: i,
+                        attrs: { disabled: _vm.pagination.current === i },
                         on: {
                           click: function ($event) {
-                            return _vm.getPosts(_vm.pagination.current - 1)
+                            return _vm.getPosts(i)
                           },
                         },
                       },
-                      [_vm._v(" \n          << prev\n          ")]
-                    ),
-                    _vm._v(" "),
-                    _vm._l(_vm.pagination.last, function (i) {
-                      return _c(
-                        "button",
-                        {
-                          key: i,
-                          attrs: { disabled: _vm.pagination.current === i },
-                          on: {
-                            click: function ($event) {
-                              return _vm.getPosts(i)
-                            },
-                          },
-                        },
-                        [_vm._v("\n            " + _vm._s(i) + "\n          ")]
-                      )
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        attrs: {
-                          disabled:
-                            _vm.pagination.current === _vm.pagination.last,
-                        },
-                        on: {
-                          click: function ($event) {
-                            return _vm.getPosts(_vm.pagination.current + 1)
-                          },
+                      [_vm._v("\n            " + _vm._s(i) + "\n          ")]
+                    )
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      attrs: {
+                        disabled:
+                          _vm.pagination.current === _vm.pagination.last,
+                      },
+                      on: {
+                        click: function ($event) {
+                          return _vm.getPosts(_vm.pagination.current + 1)
                         },
                       },
-                      [_vm._v(" \n          >> next\n        ")]
-                    ),
-                  ],
-                  2
-                ),
-              ],
-              2
-            )
-          : _c("div", { staticClass: "loader" }, [
-              _c("h3", [_vm._v("Loading...")]),
-            ]),
-      ]),
-      _vm._v(" "),
-      _c("Sidebar", { attrs: { categories: _vm.categories, tags: _vm.tags } }),
-    ],
-    1
-  )
+                    },
+                    [_vm._v(" \n            >> next\n          ")]
+                  ),
+                ],
+                2
+              ),
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            [
+              _c("Sidebar", {
+                attrs: { categories: _vm.categories, tags: _vm.tags },
+              }),
+            ],
+            1
+          ),
+        ])
+      : _c("div", { staticClass: "loader" }, [
+          _c("h3", [_vm._v("Loading...")]),
+        ]),
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
